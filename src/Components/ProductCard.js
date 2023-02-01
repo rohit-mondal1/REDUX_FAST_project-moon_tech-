@@ -1,12 +1,12 @@
 import React from "react";
 import { BiListPlus } from "react-icons/bi";
 import { useDispatch } from "react-redux";
-import { ADD_To_Cart } from "../Redux/actionType/actionType";
-// import { useProducts } from "../context/ProductProvider";
-// import { actionTypes } from "../state/ProductState/actionTypes";
+import { useLocation } from "react-router-dom";
+import { addtocart, removecart } from "../Redux/ActionDispach/ActionDispach";
 
 const ProductCard = ({ product }) => {
   const dispase = useDispatch();
+  const {pathname} = useLocation();
   return (
     <div
       className="shadow-lg rounded-3xl border  p-3 flex flex-col text-indigo-900"
@@ -29,16 +29,20 @@ const ProductCard = ({ product }) => {
         </ul>
       </div>
       <div className="flex gap-2 mt-5">
-        <button
+       {pathname.includes('cart') && <button
           className="bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
-          // onClick={() =>
-          //   dispatch({ type: actionTypes.ADD_TO_CART, payload: product })
-          // }
-
-          onClick={()=> dispase({type: ADD_To_Cart , paylode: product})}
+       
+          onClick={()=> dispase(removecart(product))}
+        >
+          Remove caet
+        </button>}
+        { !pathname.includes('cart') && <button
+          className="bg-indigo-500 rounded-full py-1 px-2 flex-1 text-white text-bold"
+       
+          onClick={()=> dispase(addtocart(product))}
         >
           Add to cart
-        </button>
+        </button>}
         <button
           title="Add to wishlist"
           className="bg-indigo-500  py-1 px-2 rounded-full"
